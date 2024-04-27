@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfig  {
+public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -24,14 +24,15 @@ public class SecurityConfig  {
                 .oauth2Login(Customizer.withDefaults())
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.
-                            sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                                sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 .authorizeHttpRequests(registry ->
-                    registry
-                        .requestMatchers("/oauth2/authorization/spotify").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user").authenticated()
-                        .anyRequest().denyAll()
-        );
+                        registry
+                                .requestMatchers("/oauth2/authorization/spotify").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/user").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/song/search").authenticated()
+                                .anyRequest().denyAll()
+                );
 
         return http.build();
     }

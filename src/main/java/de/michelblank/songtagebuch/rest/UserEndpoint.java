@@ -1,4 +1,4 @@
-package de.michelblank.songtagebuch.rest.user;
+package de.michelblank.songtagebuch.rest;
 
 import de.michelblank.songtagebuch.rest.transferobject.UserTO;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
