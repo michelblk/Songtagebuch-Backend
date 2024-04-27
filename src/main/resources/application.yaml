@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: songtagebuch
+  security:
+    oauth2:
+      client:
+        provider:
+            spotify:
+              issuer-uri: https://accounts.spotify.com
+              userInfoUri: https://api.spotify.com/v1/me
+              user-name-attribute: id
+        registration:
+          spotify:
+            clientId: ${SPOTIFY_OIDC_CLIENT_ID}
+            clientSecret: ${SPOTIFY_OIDC_SECRET}
+            provider: spotify
+            scope: user-top-read, user-read-recently-played
