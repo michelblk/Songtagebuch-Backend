@@ -1,14 +1,22 @@
 spring:
   application:
     name: songtagebuch
+  datasource:
+    url: ${DATABASE_URL:jdbc:mariadb://localhost:3306/songtagebuch}
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:root}
+    driver-class-name: ${DATABASE_DRIVER:org.mariadb.jdbc.Driver}
+  jpa:
+    hibernate:
+      ddl-auto: update
   security:
     oauth2:
       client:
         provider:
-            spotify:
-              issuer-uri: https://accounts.spotify.com
-              userInfoUri: https://api.spotify.com/v1/me
-              user-name-attribute: id
+          spotify:
+            issuer-uri: https://accounts.spotify.com
+            userInfoUri: https://api.spotify.com/v1/me
+            user-name-attribute: id
         registration:
           spotify:
             clientId: ${SPOTIFY_OIDC_CLIENT_ID}
