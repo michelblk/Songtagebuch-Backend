@@ -1,6 +1,7 @@
 package de.michelblank.songtagebuch.database.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table
+@Getter
 public class DiaryEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,6 +25,6 @@ public class DiaryEntry {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(name = "diary_songs", joinColumns = @JoinColumn(name = "diaryEntryId"), inverseJoinColumns = @JoinColumn(name = "songId"))
-    private List<DiarySong> songs;
+    private List<Song> songs;
     private String entry;
 }

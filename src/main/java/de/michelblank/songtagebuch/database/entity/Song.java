@@ -1,12 +1,14 @@
 package de.michelblank.songtagebuch.database.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.UUID;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"interpret", "name", "album"}))
-public class DiarySong {
+@Getter
+public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

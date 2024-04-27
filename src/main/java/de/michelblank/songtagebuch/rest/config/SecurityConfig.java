@@ -30,6 +30,7 @@ public class SecurityConfig {
                         registry
                                 .requestMatchers("/oauth2/authorization/spotify").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/user").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/users/{userid}/diary/{date}").authenticated() // TODO validate user is only accessing own data
                                 .requestMatchers(HttpMethod.GET, "/song/search").authenticated()
                                 .anyRequest().denyAll()
                 );
