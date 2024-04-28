@@ -48,12 +48,11 @@ public class DiaryEntry {
                 .songs(entry.getSongs()
                         .stream()
                         .map(s -> {
-                            if (s.getId() != null) {
-                                final Optional<Song> dbSong = songService.findById(UUID.fromString(s.getId()));
-                                if (dbSong.isPresent()) {
-                                    return dbSong.get();
-                                }
+                            final Optional<Song> dbSong = songService.findByIdOrSpotifyId(s.getId() != null ? UUID.fromString(s.getId()) : null, s.getSpotifyId());
+                            if (dbSong.isPresent()) {
+                                return dbSong.get();
                             }
+
                             try {
                                 final Optional<Track> track = spotifyService.findByTrackId(authentication, s.getSpotifyId());
                                 if (track.isPresent()) {

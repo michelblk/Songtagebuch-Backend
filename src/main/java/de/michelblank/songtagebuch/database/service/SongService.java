@@ -14,8 +14,8 @@ import java.util.UUID;
 public class SongService {
     private final SongRepository songRepository;
 
-    public Optional<Song> findById(final UUID id) {
-        return songRepository.findById(id);
+    public Optional<Song> findByIdOrSpotifyId(final UUID id, final String spotifyId) {
+        return songRepository.findByIdOrSpotifyId(id, spotifyId);
     }
 
     public List<Song> search(final String query) {
