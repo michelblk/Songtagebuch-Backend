@@ -5,6 +5,7 @@ import de.michelblank.songtagebuch.database.repository.SongRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,5 +16,9 @@ public class SongService {
 
     public Optional<Song> findById(final UUID id) {
         return songRepository.findById(id);
+    }
+
+    public List<Song> search(final String query) {
+        return songRepository.findAllByNameContainingOrInterpretContaining(query, query);
     }
 }

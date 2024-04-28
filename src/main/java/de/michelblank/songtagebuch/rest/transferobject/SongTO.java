@@ -18,10 +18,11 @@ public class SongTO {
 
     public static SongTO build(final Track track) {
         return SongTO.builder()
-                .id(track.getId())
+                .id(null)
                 .interpret(track.getArtists()[0].getName()) // TODO null-safety
                 .name(track.getName())
                 .album(track.getAlbum().getName())
+                .spotifyId(track.getId())
                 .coverUrl(track.getAlbum().getImages()[0].getUrl()) // TODO null-safety
                 .previewUrl(track.getPreviewUrl())
                 .build();
@@ -33,6 +34,7 @@ public class SongTO {
                 .interpret(song.getInterpret())
                 .name(song.getName())
                 .album(song.getAlbum())
+                .spotifyId(song.getSpotifyId())
                 .coverUrl(song.getCoverUrl())
                 .previewUrl(song.getPreviewUrl())
                 .build();
