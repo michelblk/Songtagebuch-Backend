@@ -17,18 +17,13 @@ public class DiaryEntryService {
         return repository.findById(id);
     }
 
-    public List<DiaryEntry> getEntriesByUserOfDay(final UUID userid, final Date date) {
-        final Calendar midnightCalendar = new GregorianCalendar();
-        midnightCalendar.setTime(date);
-        midnightCalendar.set(Calendar.HOUR, 0);
-        midnightCalendar.set(Calendar.MINUTE, 0);
-        midnightCalendar.set(Calendar.SECOND, 0);
-        midnightCalendar.set(Calendar.MILLISECOND, 0);
-        final Calendar endOfdayCalendar = (Calendar) midnightCalendar.clone();
-        endOfdayCalendar.add(Calendar.DAY_OF_MONTH, 1);
-        endOfdayCalendar.add(Calendar.MILLISECOND, -1);
+    public List<DiaryEntry> getEntriesByUserBetweenDates(final UUID userid, final Date from, final Date until) {
+        final Calendar untilCalendar = new GregorianCalendar(); // count whole until day
+        untilCalendar.setTime(until);
+        untilCalendar.add(Calendar.DAY_OF_MONTH, 1);
+        untilCalendar.add(Calendar.MILLISECOND, -1);
 
-        return repository.findAllByUserIdAndReferenceDateBetween(userid, midnightCalendar.getTime(), endOfdayCalendar.getTime());
+        return repository.findAllByUserIdAndReferenceDateBetweenOrderByReferenceDateDesc(userid, from, untilCalendar.getTime());
     }
 
     public DiaryEntry putEntry(final DiaryEntry diaryEntry) {

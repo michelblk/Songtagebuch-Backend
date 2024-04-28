@@ -31,7 +31,7 @@ public class SecurityConfig {
                                 .requestMatchers("/oauth2/authorization/spotify").permitAll()
                                 .requestMatchers("/error").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/user").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/users/{userid}/diary/{date}").authenticated() // TODO validate user is only accessing own data
+                                .requestMatchers(HttpMethod.GET, "/users/{userid}/diary").authenticated() // TODO validate user is only accessing own data
                                 .requestMatchers(HttpMethod.PUT, "/users/{userid}/diary").authenticated() // TODO validate user is only putting own data
                                 .requestMatchers(HttpMethod.POST, "/users/{userid}/diary/{diaryEntryId}").authenticated() // TODO validate user is only putting own data
                                 .requestMatchers(HttpMethod.GET, "/song/search").authenticated()

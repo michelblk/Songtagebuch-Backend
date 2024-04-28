@@ -24,10 +24,11 @@ public class DiaryEndpoint {
     private final SongService songService;
     private final SpotifyService spotifyService;
 
-    @GetMapping("/{date}")
-    public List<DiaryEntryTO> getDiaryEntriesOfDay(@PathVariable final UUID userid,
-                                                   @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final Date date) {
-        return diaryEntryService.getEntriesByUserOfDay(userid, date).stream().map(DiaryEntryTO::build).toList();
+    @GetMapping()
+    public List<DiaryEntryTO> getDiaryEntriesOfDays(@PathVariable final UUID userid,
+                                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final Date from,
+                                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) final Date until) {
+        return diaryEntryService.getEntriesByUserBetweenDates(userid, from, until).stream().map(DiaryEntryTO::build).toList();
     }
 
     @PutMapping

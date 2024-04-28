@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DiaryEntryRepository extends CrudRepository<DiaryEntry, UUID> {
-    List<DiaryEntry> findAllByUserIdAndReferenceDateBetween(final UUID userid, final Date startDate, final Date endDate);
+    List<DiaryEntry> findAllByUserIdAndReferenceDateBetweenOrderByReferenceDateDesc(final UUID userid, final Date startDate, final Date endDate);
 }
