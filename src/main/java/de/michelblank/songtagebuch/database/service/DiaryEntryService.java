@@ -25,4 +25,8 @@ public class DiaryEntryService {
 
         return repository.findAllByUserIdAndReferenceDateBetween(userid, midnightCalendar.getTime(), endOfdayCalendar.getTime());
     }
+
+    public DiaryEntry putEntry(final DiaryEntry diaryEntry) {
+        return repository.save(diaryEntry);
+    }
 }

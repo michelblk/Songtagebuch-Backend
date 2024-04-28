@@ -1,7 +1,6 @@
 package de.michelblank.songtagebuch.service;
 
 import com.neovisionaries.i18n.CountryCode;
-import de.michelblank.songtagebuch.rest.transferobject.SongTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -14,6 +13,7 @@ import se.michaelthelin.spotify.model_objects.specification.Track;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +32,19 @@ public class SpotifyService {
             return Arrays.asList(foundTracks);
         } catch (final IOException | SpotifyWebApiException | ParseException e) {
             throw new IOException("Failed to search for track using query <" + query + ">", e);
+        }
+    }
+
+    public Optional<Track> findByTrackId(final OAuth2AuthenticationToken authentication, final String id) throws IOException {
+        try {
+            return Optional.ofNullable(
+                    buildSpotifyApi(authentication)
+                            .getTrack(id)
+                            .build()
+                            .execute()
+            );
+        } catch (final IOException | SpotifyWebApiException | ParseException e) {
+            throw new IOException("Failed to find track with id <" + id + ">", e);
         }
     }
 

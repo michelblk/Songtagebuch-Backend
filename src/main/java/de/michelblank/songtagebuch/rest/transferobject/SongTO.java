@@ -12,6 +12,7 @@ public class SongTO {
     private final String interpret;
     private final String name;
     private final String album;
+    private String spotifyId;
     private final String coverUrl;
     private final String previewUrl;
 
