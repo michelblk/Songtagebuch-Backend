@@ -2,6 +2,7 @@ package de.michelblank.songtagebuch.database.service;
 
 import de.michelblank.songtagebuch.database.entity.DiaryEntry;
 import de.michelblank.songtagebuch.database.repository.DiaryEntryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class DiaryEntryService {
     private final DiaryEntryRepository repository;
+
+    public Optional<DiaryEntry> findById(final UUID id) {
+        return repository.findById(id);
+    }
 
     public List<DiaryEntry> getEntriesByUserOfDay(final UUID userid, final Date date) {
         final Calendar midnightCalendar = new GregorianCalendar();
@@ -28,5 +33,16 @@ public class DiaryEntryService {
 
     public DiaryEntry putEntry(final DiaryEntry diaryEntry) {
         return repository.save(diaryEntry);
+    }
+
+    public DiaryEntry updateEntry(final DiaryEntry updatedEntry) {
+        final DiaryEntry originalEntry = findById(updatedEntry.getId()).orElseThrow(EntityNotFoundException::new);
+
+        originalEntry.setReferenceDate(updatedEntry.getReferenceDate());
+        originalEntry.setModificationDate(updatedEntry.getModificationDate());
+        originalEntry.setSongs(updatedEntry.getSongs()); // TODO verify if this works and is good
+        originalEntry.setEntry(updatedEntry.getEntry());
+
+        return repository.save(originalEntry);
     }
 }

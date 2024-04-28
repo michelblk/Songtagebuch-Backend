@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/users/{userid}/diary")
@@ -46,5 +43,24 @@ public class DiaryEndpoint {
                 ))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
 
+    }
+
+    @PostMapping("/{diaryEntryId}")
+    public ResponseEntity<DiaryEntryTO> changeDiaryEntry(OAuth2AuthenticationToken authentication,
+                                                         @PathVariable final UUID userid, @PathVariable final UUID diaryEntryId,
+                                                         @RequestBody DiaryEntryTO entry) {
+        final Optional<User> user = userService.findById(userid);
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        if (entry.getId() == null || !Objects.equals(diaryEntryId, UUID.fromString(entry.getId()))) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        final DiaryEntry updatedEntry = diaryEntryService.updateEntry(DiaryEntry.build(
+                songService, spotifyService, authentication, user.get(), entry
+        ));
+
+        return ResponseEntity.ok(DiaryEntryTO.build(updatedEntry));
     }
 }

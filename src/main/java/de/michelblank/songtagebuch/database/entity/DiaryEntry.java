@@ -4,20 +4,19 @@ import de.michelblank.songtagebuch.database.service.SongService;
 import de.michelblank.songtagebuch.rest.transferobject.DiaryEntryTO;
 import de.michelblank.songtagebuch.service.SpotifyService;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -44,6 +43,7 @@ public class DiaryEntry {
         return DiaryEntry.builder()
                 .id(entry.getId() != null ? UUID.fromString(entry.getId()) : null)
                 .referenceDate(entry.getReferenceDate())
+                .modificationDate(entry.getModificationDate())
                 .user(user)
                 .songs(entry.getSongs()
                         .stream()
@@ -64,7 +64,7 @@ public class DiaryEntry {
                             return null;
                         })
                         .filter(Objects::nonNull)
-                        .toList()
+                        .collect(Collectors.toList())
                 )
                 .entry(entry.getEntry())
                 .build();
