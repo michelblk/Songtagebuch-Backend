@@ -16,4 +16,12 @@ public class UserService {
     public Optional<User> findById(final UUID id) {
         return userRepository.findById(id);
     }
+
+    public Optional<User> findByIdentityProviderAndIdpId(final String identityProvider, final String idpId) {
+        return userRepository.findByIdentityProviderAndIdpId(identityProvider, idpId);
+    }
+
+    public User putUser(final User user) {
+        return userRepository.save(user);
+    }
 }
