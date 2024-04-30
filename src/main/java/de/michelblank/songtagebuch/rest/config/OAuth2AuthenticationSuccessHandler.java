@@ -1,5 +1,6 @@
 package de.michelblank.songtagebuch.rest.config;
 
+import de.michelblank.songtagebuch.config.AppConfig;
 import de.michelblank.songtagebuch.database.entity.User;
 import de.michelblank.songtagebuch.database.service.UserService;
 import jakarta.servlet.ServletException;
@@ -18,13 +19,16 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final UserService userService;
+    private final AppConfig appConfig;
 
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws ServletException, IOException {
         if (authentication instanceof OAuth2AuthenticationToken) {
             final User user = createUserIfMissing((OAuth2AuthenticationToken) authentication);
             request.getSession().setAttribute("uid", user.getId());
-            super.onAuthenticationSuccess(request, response, authentication);
+
+            clearAuthenticationAttributes(request);
+            getRedirectStrategy().sendRedirect(request, response, appConfig.getFrontendHomeUrl());
         }
     }
 

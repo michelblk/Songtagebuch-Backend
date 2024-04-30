@@ -1,3 +1,5 @@
+app:
+  frontend-home-url: ${FRONTEND_HOME_URL:/}
 server:
   forward-headers-strategy: framework
 spring:
