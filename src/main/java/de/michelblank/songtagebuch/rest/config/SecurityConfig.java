@@ -24,7 +24,9 @@ public class SecurityConfig {
         http
                 .csrf(CsrfConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
-                .oauth2Login(loginConfigurer -> loginConfigurer.successHandler(oAuth2AuthenticationSuccessHandler))
+                .oauth2Login(loginConfigurer ->
+                    loginConfigurer.successHandler(oAuth2AuthenticationSuccessHandler)
+                )
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.
                                 sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
