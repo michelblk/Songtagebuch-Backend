@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
@@ -29,6 +31,11 @@ public class Song {
     private String spotifyId;
     private String coverUrl;
     private String previewUrl;
+    @ElementCollection
+    @CollectionTable(name = "song_external_url", joinColumns = {@JoinColumn(name = "song_id", referencedColumnName = "id")})
+    @MapKeyColumn(name = "provider")
+    @Column(name = "url")
+    private Map<String, String> externalUrls = new HashMap<>();
 
     public static Song build(final SongTO songTO, final String spotifyId) {
         return Song.builder()
@@ -39,6 +46,7 @@ public class Song {
                 .spotifyId(spotifyId)
                 .coverUrl(songTO.getCoverUrl())
                 .previewUrl(songTO.getPreviewUrl())
+                .externalUrls(songTO.getExternalUrls())
                 .build();
     }
 
@@ -51,6 +59,7 @@ public class Song {
                 .spotifyId(track.getId())
                 .coverUrl(track.getAlbum().getImages()[0].getUrl()) // TODO
                 .previewUrl(track.getPreviewUrl())
+                .externalUrls(track.getExternalUrls().getExternalUrls()) // TODO
                 .build();
     }
 }

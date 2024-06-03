@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import se.michaelthelin.spotify.model_objects.specification.Track;
 
+import java.util.Map;
+
 @Data
 @Builder
 public class SongTO {
@@ -15,6 +17,7 @@ public class SongTO {
     private String spotifyId;
     private final String coverUrl;
     private final String previewUrl;
+    private final Map<String, String> externalUrls;
 
     public static SongTO build(final Track track) {
         return SongTO.builder()
@@ -25,6 +28,7 @@ public class SongTO {
                 .spotifyId(track.getId())
                 .coverUrl(track.getAlbum().getImages()[0].getUrl()) // TODO null-safety
                 .previewUrl(track.getPreviewUrl())
+                .externalUrls(track.getExternalUrls().getExternalUrls()) // TODO null-safety
                 .build();
     }
 
@@ -37,6 +41,7 @@ public class SongTO {
                 .spotifyId(song.getSpotifyId())
                 .coverUrl(song.getCoverUrl())
                 .previewUrl(song.getPreviewUrl())
+                .externalUrls(song.getExternalUrls())
                 .build();
     }
 }
